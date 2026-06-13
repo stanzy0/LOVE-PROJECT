@@ -1,0 +1,218 @@
+:root {
+    --primary: #cc3366;
+    --accent: #ff1493;
+    --yes-bg: #22c55e;
+    --no-bg: #ef4444;
+    --bg: #fff0f5;
+    --text: #1f2937;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --radius: 12px;
+    --shadow: 0 4px 20px rgba(204, 51, 102, 0.15);
+    --font: Georgia, "Times New Roman", serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    text-align: center;
+    font-family: var(--font);
+    background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 50%, #ffd6e7 100%);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+}
+
+h1 {
+    color: var(--primary);
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin: 10px 0;
+    text-shadow: 0 2px 8px rgba(204, 51, 102, 0.15);
+}
+
+h2 {
+    color: var(--primary);
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: normal;
+    margin: 5px 0 20px;
+    opacity: 0.85;
+}
+
+.stage-container {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius);
+    padding: 30px 20px;
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 25px;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.stage-container.hidden {
+    display: none;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 25px 0;
+    position: relative;
+    min-height: 70px;
+}
+
+button {
+    padding: 14px 32px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    font-family: var(--font);
+    font-weight: bold;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: translateY(0px) scale(0.97);
+}
+
+#yesBtn {
+    background: var(--yes-bg);
+}
+
+#noBtn {
+    background: var(--no-bg);
+}
+
+#message {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    color: var(--accent);
+    font-weight: bold;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#message.fade {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cat-img {
+    width: clamp(150px, 40vw, 250px);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+}
+
+.cat-img:hover {
+    transform: scale(1.04) rotate(-2deg);
+}
+
+.progress-bar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #e0b4c8;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.progress-dot.active {
+    background: var(--primary);
+    transform: scale(1.3);
+}
+
+.progress-dot.completed {
+    background: var(--yes-bg);
+}
+
+.heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatUp 3s ease-in forwards;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.3) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-50vh) scale(1.2) rotate(180deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh) scale(0.6) rotate(360deg);
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 20px 15px;
+    }
+
+    .stage-container {
+        padding: 20px 15px;
+    }
+
+    button {
+        padding: 12px 24px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
