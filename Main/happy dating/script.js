@@ -1,38 +1,78 @@
 const stages = [
     {
-        title: "DO YOU LOVE ME?",
+        title: "{yourName}, do you love {herName}?",
         subtitle: "Be honest...",
-        yesMessage: "❤️ I Love You Too! ❤️",
-        noLabel: "NO",
-        moveChance: 1
+        yesMessage: "I knew it! {herName} loves you too!",
+        reason: "Because your smile makes every ordinary moment feel magical.",
+        noLabel: "NO"
     },
     {
-        title: "WILL YOU BE MY VALENTINE?",
+        title: "{herName}, will you be my valentine?",
         subtitle: "Pretty please...",
-        yesMessage: "Yay! 💖 But wait...",
-        noLabel: "NO",
-        moveChance: 1
+        yesMessage: "Yay! Best decision ever!",
+        reason: "Because every day with you feels like a love story worth remembering.",
+        noLabel: "NO"
     },
     {
-        title: "WILL YOU MARRY ME?",
+        title: "{herName}, will you marry me?",
         subtitle: "This is the real question",
-        yesMessage: "💍 YESSSS! FOREVER & ALWAYS! 💍",
-        noLabel: "NO",
-        moveChance: 1
+        yesMessage: "YESSSS! FOREVER & ALWAYS!",
+        reason: "Because I want to choose you today, tomorrow, and every day after.",
+        noLabel: "NO"
     }
+];
+
+const reasons = [
+    "Because your laugh is my favorite sound.",
+    "Because you make my heart feel at home.",
+    "Because life is sweeter whenever you are near.",
+    "Because I fall for you more every single day.",
+    "Because you are my safest place and my biggest adventure."
+];
+
+const photos = [
+    "6_Image.jpg",
+    "love-1.jpg",
+    "love-2.jpg",
+    "love-3.jpg",
+    "love-4.jpg"
 ];
 
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
+const startBtn = document.getElementById("startBtn");
+const playAgainBtn = document.getElementById("playAgainBtn");
+const musicBtn = document.getElementById("musicBtn");
 const message = document.getElementById("message");
 const stageTitle = document.getElementById("stageTitle");
 const stageSubtitle = document.getElementById("stageSubtitle");
 const stageContainer = document.getElementById("stageContainer");
+const introCard = document.getElementById("introCard");
+const celebration = document.getElementById("celebration");
+const celebrationTitle = document.getElementById("celebrationTitle");
+const celebrationMessage = document.getElementById("celebrationMessage");
+const celebrationEyebrow = document.getElementById("celebrationEyebrow");
 const progressBar = document.getElementById("progressBar");
 const heartContainer = document.getElementById("heartContainer");
+const galleryImage = document.getElementById("galleryImage");
+const prevImageBtn = document.getElementById("prevImageBtn");
+const nextImageBtn = document.getElementById("nextImageBtn");
+const yourNameInput = document.getElementById("yourNameInput");
+const herNameInput = document.getElementById("herNameInput");
+const loveMusic = document.getElementById("loveMusic");
 
 let currentStage = 0;
+let currentPhoto = 0;
 let isTransitioning = false;
+let musicOn = false;
+let yourName = "My Love";
+let herName = "Beautiful";
+
+function personalize(text) {
+    return text
+        .replaceAll("{yourName}", yourName)
+        .replaceAll("{herName}", herName);
+}
 
 function renderProgress() {
     progressBar.innerHTML = "";
@@ -45,27 +85,44 @@ function renderProgress() {
     });
 }
 
-function moveNoButton() {
-    const padding = 20;
-    const btnRect = noBtn.getBoundingClientRect();
-    const moveRange = Math.min(window.innerWidth - btnRect.width - padding, 300);
-
-    const x = Math.random() * moveRange + padding;
-    const y = Math.random() * (window.innerHeight - btnRect.height - 100) + 50;
-
-    noBtn.style.position = "fixed";
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
-    noBtn.style.zIndex = "100";
+function updateGallery() {
+    galleryImage.src = photos[currentPhoto];
 }
 
-function getNewNoPosition() {
-    const padding = 20;
-    const btnRect = noBtn.getBoundingClientRect();
-    const moveRange = Math.min(window.innerWidth - btnRect.width - padding, 300);
-    const x = Math.random() * moveRange + padding;
-    const y = Math.random() * (window.innerHeight - btnRect.height - 100) + 50;
-    return { x, y };
+function showGallery(nextIndex) {
+    currentPhoto = (nextIndex + photos.length) % photos.length;
+    updateGallery();
+}
+
+function startApp() {
+    yourName = yourNameInput.value.trim() || "My Love";
+    herName = herNameInput.value.trim() || "Beautiful";
+
+    introCard.classList.add("hidden");
+    stageContainer.classList.remove("hidden");
+
+    currentStage = 0;
+    currentPhoto = 0;
+    updateGallery();
+    renderStage();
+}
+
+function renderStage() {
+    const stage = stages[currentStage];
+
+    stageTitle.textContent = personalize(stage.title);
+    stageSubtitle.textContent = personalize(stage.subtitle);
+    noBtn.textContent = stage.noLabel;
+    message.innerHTML = "";
+    message.classList.remove("fade");
+
+    noBtn.style.position = "";
+    noBtn.style.left = "";
+    noBtn.style.top = "";
+    noBtn.style.zIndex = "";
+    noBtn.style.transform = "";
+
+    renderProgress();
 }
 
 function transitionToStage(index) {
@@ -77,20 +134,7 @@ function transitionToStage(index) {
 
     setTimeout(() => {
         currentStage = index;
-        const stage = stages[currentStage];
-
-        stageTitle.textContent = stage.title;
-        stageSubtitle.textContent = stage.subtitle;
-        noBtn.textContent = stage.noLabel;
-        message.textContent = "";
-        message.classList.remove("fade");
-
-        noBtn.style.position = "";
-        noBtn.style.left = "";
-        noBtn.style.top = "";
-        noBtn.style.zIndex = "";
-
-        renderProgress();
+        renderStage();
 
         stageContainer.style.opacity = "1";
         stageContainer.style.transform = "translateY(0)";
@@ -101,8 +145,11 @@ function transitionToStage(index) {
     }, 400);
 }
 
-function showMessage(text) {
-    message.innerHTML = text;
+function showMessage(text, reason) {
+    message.innerHTML = `
+        <div>${personalize(text)}</div>
+        <div class="reason">${personalize(reason || reasons[currentStage] || reasons[0])}</div>
+    `;
     message.classList.remove("fade");
     void message.offsetWidth;
     message.classList.add("fade");
@@ -122,8 +169,54 @@ function spawnHearts(count = 40) {
             heartContainer.appendChild(heart);
 
             setTimeout(() => heart.remove(), 4000);
-        }, i * 60);
+        }, i * 45);
     }
+}
+
+function showCelebration() {
+    const finalMessage = personalize("Forever with {yourName} and {herName}.");
+
+    celebrationTitle.textContent = "She said YES!";
+    celebrationEyebrow.textContent = "It's official!";
+    celebrationMessage.textContent = finalMessage;
+
+    stageContainer.classList.add("hidden");
+    celebration.classList.remove("hidden");
+    document.body.classList.add("celebrating");
+
+    spawnHearts(100);
+}
+
+function resetApp() {
+    celebration.classList.add("hidden");
+    introCard.classList.remove("hidden");
+    stageContainer.classList.add("hidden");
+    document.body.classList.remove("celebrating");
+
+    currentStage = 0;
+    currentPhoto = 0;
+    isTransitioning = false;
+
+    yesBtn.style.display = "";
+    noBtn.style.display = "";
+    stageContainer.style.opacity = "";
+    stageContainer.style.transform = "";
+    stageContainer.style.position = "";
+    stageContainer.style.left = "";
+    stageContainer.style.top = "";
+    stageContainer.style.zIndex = "";
+
+    updateGallery();
+    renderProgress();
+}
+
+function getNewNoPosition() {
+    const padding = 20;
+    const btnRect = noBtn.getBoundingClientRect();
+    const moveRange = Math.min(window.innerWidth - btnRect.width - padding, 300);
+    const x = Math.random() * moveRange + padding;
+    const y = Math.random() * (window.innerHeight - btnRect.height - 100) + 50;
+    return { x, y };
 }
 
 function handleYes() {
@@ -132,54 +225,66 @@ function handleYes() {
     const stage = stages[currentStage];
 
     if (currentStage < stages.length - 1) {
-        showMessage(stage.yesMessage);
+        showMessage(stage.yesMessage, stage.reason);
         setTimeout(() => transitionToStage(currentStage + 1), 1800);
     } else {
-        showMessage(stage.yesMessage);
+        showMessage(stage.yesMessage, stage.reason);
         spawnHearts(60);
-        yesBtn.style.display = "none";
-        noBtn.style.display = "none";
+        setTimeout(showCelebration, 900);
     }
 }
 
 function handleNo() {
     if (isTransitioning) return;
 
-    if (currentStage < stages.length - 1) {
-        const newPos = getNewNoPosition();
-        noBtn.style.transition = "all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-        noBtn.style.position = "fixed";
-        noBtn.style.left = `${newPos.x}px`;
-        noBtn.style.top = `${newPos.y}px`;
-        noBtn.style.zIndex = "100";
+    const newPos = getNewNoPosition();
+    noBtn.style.transition = "all 0.2s ease-out";
+    noBtn.style.position = "fixed";
+    noBtn.style.left = `${newPos.x}px`;
+    noBtn.style.top = `${newPos.y}px`;
+    noBtn.style.zIndex = "100";
+    noBtn.style.transform = `scale(${1.4 + Math.random() * 0.5})`;
 
-        const scale = 1 + currentStage * 0.15;
-        noBtn.style.transform = `scale(${scale})`;
+    setTimeout(() => {
+        noBtn.style.transition = "";
+    }, 250);
+}
 
-        setTimeout(() => {
-            noBtn.style.transition = "";
-        }, 300);
+function toggleMusic() {
+    musicOn = !musicOn;
+
+    if (musicOn) {
+        loveMusic.play().catch(() => {
+            musicOn = false;
+        });
+        musicBtn.textContent = "🎵 Music On";
     } else {
-        const newPos = getNewNoPosition();
-        noBtn.style.transition = "all 0.15s ease-out";
-        noBtn.style.position = "fixed";
-        noBtn.style.left = `${newPos.x}px`;
-        noBtn.style.top = `${newPos.y}px`;
-        noBtn.style.zIndex = "100";
-        noBtn.style.transform = `scale(${1.8 + Math.random() * 0.5})`;
-
-        setTimeout(() => {
-            noBtn.style.transition = "";
-        }, 150);
+        loveMusic.pause();
+        loveMusic.currentTime = 0;
+        musicBtn.textContent = "🎵 Music Off";
     }
 }
 
+startBtn.addEventListener("click", startApp);
 yesBtn.addEventListener("click", handleYes);
-
 noBtn.addEventListener("mouseover", handleNo);
 noBtn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     handleNo();
 }, { passive: false });
 
+prevImageBtn.addEventListener("click", () => showGallery(currentPhoto - 1));
+nextImageBtn.addEventListener("click", () => showGallery(currentPhoto + 1));
+playAgainBtn.addEventListener("click", resetApp);
+musicBtn.addEventListener("click", toggleMusic);
+
+yourNameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") herNameInput.focus();
+});
+
+herNameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") startApp();
+});
+
 renderProgress();
+updateGallery();

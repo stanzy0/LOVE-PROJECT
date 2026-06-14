@@ -11,9 +11,36 @@
 
     <div class="progress-bar" id="progressBar"></div>
 
-    <div class="stage-container" id="stageContainer">
+    <section class="intro-card" id="introCard">
+        <h1>Before I ask...</h1>
+        <p>Enter your names to make this extra special.</p>
+
+        <div class="name-form">
+            <label>
+                Your Name
+                <input type="text" id="yourNameInput" placeholder="Your name" maxlength="30">
+            </label>
+            <label>
+                Her Name
+                <input type="text" id="herNameInput" placeholder="Her name" maxlength="30">
+            </label>
+            <button id="startBtn">Start</button>
+        </div>
+    </section>
+
+    <section class="stage-container hidden" id="stageContainer">
+        <div class="music-toggle">
+            <button id="musicBtn" type="button" aria-label="Toggle music">🎵 Music Off</button>
+        </div>
+
         <h1 id="stageTitle">DO YOU LOVE ME?</h1>
         <h2 id="stageSubtitle">Be honest...</h2>
+
+        <div class="gallery">
+            <img id="galleryImage" src="6_Image.jpg" alt="Love memory">
+            <button type="button" id="prevImageBtn" aria-label="Previous photo">‹</button>
+            <button type="button" id="nextImageBtn" aria-label="Next photo">›</button>
+        </div>
 
         <div class="buttons">
             <button id="yesBtn">YES</button>
@@ -21,11 +48,21 @@
         </div>
 
         <div id="message"></div>
-        
-            <img src="6_Image.jpg" alt="Cute Cat" class="cat-img" loading="lazy">
-    </div>
+    </section>
+
+    <section class="celebration hidden" id="celebration">
+        <div class="celebration-card">
+            <p class="eyebrow" id="celebrationEyebrow">It's official!</p>
+            <h1 id="celebrationTitle">She said YES!</h1>
+            <p id="celebrationMessage">Forever starts now.</p>
+            <button id="playAgainBtn">Play Again</button>
+        </div>
+    </section>
 
     <div class="heart-container" id="heartContainer"></div>
+    <audio id="loveMusic" loop>
+        <source src="love-song.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="script.js"></script>
 </body>
