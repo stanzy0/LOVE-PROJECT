@@ -32,10 +32,10 @@ const reasons = [
 
 const photos = [
     "6_Image.jpg",
-    "love-1.jpg",
-    "love-2.jpg",
-    "love-3.jpg",
-    "love-4.jpg"
+    "download 1.jpg",
+    "download 2.jpg",
+    "download 3.jpg",
+    "download 4.jpg"
 ];
 
 const noBtn = document.getElementById("noBtn");
