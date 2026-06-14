@@ -94,6 +94,10 @@ function showGallery(nextIndex) {
     updateGallery();
 }
 
+setInterval(() => {
+    showGallery(currentPhoto + 1);
+}, 1000);
+
 function startApp() {
     yourName = yourNameInput.value.trim() || "My Love";
     herName = herNameInput.value.trim() || "Beautiful";
