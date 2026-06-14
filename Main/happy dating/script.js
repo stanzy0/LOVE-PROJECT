@@ -98,6 +98,15 @@ function startApp() {
     yourName = yourNameInput.value.trim() || "My Love";
     herName = herNameInput.value.trim() || "Beautiful";
 
+    loveMusic.volume = 0.45;
+    loveMusic.play().then(() => {
+        musicOn = true;
+        musicBtn.textContent = "🎵 Music On";
+    }).catch(() => {
+        musicOn = false;
+        musicBtn.textContent = "🎵 Music Off";
+    });
+
     introCard.classList.add("hidden");
     stageContainer.classList.remove("hidden");
 
@@ -254,10 +263,13 @@ function toggleMusic() {
     musicOn = !musicOn;
 
     if (musicOn) {
-        loveMusic.play().catch(() => {
+        loveMusic.volume = 0.45;
+        loveMusic.play().then(() => {
+            musicBtn.textContent = "🎵 Music On";
+        }).catch(() => {
             musicOn = false;
+            musicBtn.textContent = "🎵 Music Off";
         });
-        musicBtn.textContent = "🎵 Music On";
     } else {
         loveMusic.pause();
         loveMusic.currentTime = 0;
@@ -285,6 +297,19 @@ yourNameInput.addEventListener("keydown", (e) => {
 herNameInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") startApp();
 });
+
+document.addEventListener("click", () => {
+    if (!musicOn) {
+        loveMusic.volume = 0.45;
+        loveMusic.play().then(() => {
+            musicOn = true;
+            musicBtn.textContent = "🎵 Music On";
+        }).catch(() => {
+            musicOn = false;
+            musicBtn.textContent = "🎵 Music Off";
+        });
+    }
+}, { once: true });
 
 renderProgress();
 updateGallery();
