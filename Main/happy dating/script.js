@@ -96,7 +96,7 @@ function showGallery(nextIndex) {
 
 setInterval(() => {
     showGallery(currentPhoto + 1);
-}, 1000);
+}, 3000);
 
 function startApp() {
     yourName = yourNameInput.value.trim() || "My Love";
