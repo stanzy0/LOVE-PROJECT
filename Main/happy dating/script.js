@@ -7,14 +7,14 @@ const stages = [
         noLabel: "NO"
     },
     {
-        title: "{yourName}, will be my valentine?",
+        title: "{yourName}, will you be my valentine?",
         subtitle: "Pretty please...",
         yesMessage: "Yay! Best decision ever!",
         reason: "Because every day with you feels like a love story worth remembering.",
         noLabel: "NO"
     },
     {
-        title: "{yourName}, will marry me?",
+        title: "{yourName}, will you marry me?",
         subtitle: "This is the real question",
         yesMessage: "YESSSS! FOREVER & ALWAYS!",
         reason: "Because I want to choose you today, tomorrow, and every day after.",
