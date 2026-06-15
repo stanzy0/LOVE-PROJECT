@@ -34,8 +34,12 @@ const photos = [
     "6_Image.jpg",
     "download 1.jpg",
     "download 2.jpg",
-    "download 3.jpg",
-    "download 4.jpg"
+    "download 4.jpg",
+    "download 6.png",
+    "download 7.jpg",
+    "download 8.jpg",
+    "download9.jpg",
+    "images.png"
 ];
 
 const noBtn = document.getElementById("noBtn");
